@@ -29,4 +29,8 @@ public interface IView {
     String saisirNom(String s);
 
     LocalDate saisirDateDeCreation(String s);
+
+    double saisirPrix();
+
+    boolean saisirTitularisation();
 }

@@ -31,11 +31,23 @@ public class Equipe extends AbstractEntity {
         return entraineur;
     }
 
+    public void addJoueur(Joueur joueur){
+        joueurs.add(joueur);
+    }
+
     public void setEntraineur(Entraineur entraineur) {
         this.entraineur = entraineur;
     }
 
-    public Equipe( Niveau niveau, Entraineur entraineur) {
+    @Override
+    public String toString() {
+        return "Equipe{" +
+                "niveau=" + niveau +
+                ", entraineur=" + entraineur +
+                '}';
+    }
+
+    public Equipe(Niveau niveau, Entraineur entraineur) {
         setEntraineur(entraineur);
         setNiveau(niveau);
 

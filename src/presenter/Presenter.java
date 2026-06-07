@@ -1,11 +1,9 @@
 package presenter;
 
-import models.entities.Club;
-import models.entities.Entraineur;
-import models.entities.Equipe;
-import models.entities.FactoryEntities;
+import models.entities.*;
 import models.facades.IModel;
 import models.references.Niveau;
+import models.references.Poste;
 import views.exceptions.ViewException;
 import views.facades.IView;
 
@@ -36,7 +34,7 @@ public class Presenter {
     ));
     private final int TAILLE_MENU_PRINCIPAL = MENU_PRINCIPAL.size();
 
-    public void start() {
+    public void start() throws ViewException {
         int choix;
         do {
             view.afficherMenuPrincipal(MENU_PRINCIPAL, TITRE_MENU_PRINCIPAL);
@@ -45,7 +43,7 @@ public class Presenter {
         } while (choix != CHOIX_SORTIE);
     }
 
-    private void gestionMenu(int choix) {
+    private void gestionMenu(int choix) throws ViewException {
         switch (choix) {
             case 1 -> saisirUnClub();
             case 2 -> creerUneEquipeDansUnClub();
@@ -84,8 +82,27 @@ public class Presenter {
         clubChoisi.addEquipe(equipe);
     }
 
-    private void ajouterUnJoueurDansUneEquipe() {
+    private void ajouterUnJoueurDansUneEquipe() throws ViewException {
+        List<Club>  listeClub = model.getClubList();
+        view.afficherListe(listeClub,Club::getNom);
+        int choixClub = view.saisirChoixMenuAvecSortie(listeClub.size());
+        List<Equipe>  listeEquipe = model.getEquipeList();
+        view.afficherListe(listeEquipe,Equipe::toString);
+        int choixEquipe = view.saisirChoixMenuAvecSortie(listeEquipe.size());
+        String nom = view.saisirNom("saisir nom du joueur");
+        String prenom = view.saisirNom("saisir prenom du joueur");
 
+        LocalDate dateDeNaissance = view.saisirDateDeCreation("Saisissez la date de naissance");
+        Poste poste = view.choisirEnum(Poste.class,Poste::name);
+        double prix = view.saisirPrix();
+        boolean titulaire = view.saisirTitularisation();
+
+        Joueur joueur = FactoryEntities.createJoueur(nom, prenom, prix, dateDeNaissance, poste, titulaire);
+
+        model.savePersonne(joueur);
+        Equipe equipeChoisi = listeEquipe.get(choixEquipe - 1);
+
+        equipeChoisi.addJoueur(joueur);
 
 
     }

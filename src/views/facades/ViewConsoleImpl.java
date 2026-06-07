@@ -119,4 +119,15 @@ public class ViewConsoleImpl implements IView{
         afficherMessage(message);
         return LectureConsole.lectureLocalDate("JJ-MM-AAAA");
     }
+
+    @Override
+    public double saisirPrix() {
+
+        return LectureConsole.lectureDouble(" saisissez le prix du joueur : ");
+    }
+
+    @Override
+    public boolean saisirTitularisation() {
+        return LectureConsole.lectureBoolean("Le joueur est il titulaire? O/N");
+    }
 }
