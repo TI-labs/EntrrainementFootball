@@ -1,8 +1,15 @@
 package presenter;
 
+import models.entities.Club;
+import models.entities.Entraineur;
+import models.entities.Equipe;
+import models.entities.FactoryEntities;
 import models.facades.IModel;
+import models.references.Niveau;
+import views.exceptions.ViewException;
 import views.facades.IView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +48,7 @@ public class Presenter {
     private void gestionMenu(int choix) {
         switch (choix) {
             case 1 -> saisirUnClub();
-            case 2 -> créerUneEquipeDansUnClub();
+            case 2 -> creerUneEquipeDansUnClub();
             case 3 -> ajouterUnJoueurDansUneEquipe();
             case 4 -> afficherLesInfosDUneEquipe();
             case 5 -> supprimerUnJoueurDUneEquipe();
@@ -50,12 +57,36 @@ public class Presenter {
 
     private void saisirUnClub() {
 
+        String nom = view.saisirNom("Entrez nom du club : ");
+        LocalDate dateDeCreation = view.saisirDateDeCreation("Saisir la date de création du club : ");
+
+        Club club = FactoryEntities.createClub(nom, dateDeCreation);
+
+        model.saveClub(club);
+
     }
 
-    private void créerUneEquipeDansUnClub() {
+    private void creerUneEquipeDansUnClub() throws ViewException{
+        List<Club>  listeClub = model.getClubList();
+        view.afficherListe(listeClub,Club::getNom);
+        int choixClub = view.saisirChoixMenuAvecSortie(listeClub.size());
+
+        Club clubChoisi = listeClub.get(choixClub-1);
+        Niveau niveau = view.choisirEnum(Niveau.class,Niveau::getNom);
+        String nomEntraineur = view.saisirNom("saisissez le nom de l'entraineur : ");
+        String prenomEntraineur = view.saisirNom("Saisissez le prenom de l'entraineur");
+
+        Entraineur entraineur = FactoryEntities.createEntraineur(nomEntraineur,prenomEntraineur);
+        model.savePersonne(entraineur);
+        Equipe equipe = FactoryEntities.createEquipe(niveau, entraineur);
+        model.saveEquipe(equipe);
+
+        clubChoisi.addEquipe(equipe);
     }
 
     private void ajouterUnJoueurDansUneEquipe() {
+
+
 
     }
 

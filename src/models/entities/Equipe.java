@@ -35,10 +35,10 @@ public class Equipe extends AbstractEntity {
         this.entraineur = entraineur;
     }
 
-    public Equipe(Set<Joueur> joueurs, Niveau niveau, Entraineur entraineur) {
-        setJoueurs(joueurs);
-        setNiveau(niveau);
+    public Equipe( Niveau niveau, Entraineur entraineur) {
         setEntraineur(entraineur);
+        setNiveau(niveau);
+
     }
 
     @Override

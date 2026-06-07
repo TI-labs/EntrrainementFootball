@@ -1,22 +1,23 @@
 package models.entities;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Club extends AbstractEntity {
-    private Set<Equipe> equipe = new HashSet<>();
+    private Set<Equipe> equipes = new HashSet<>();
     private LocalDate dateDeCreation ;
     private String nom;
 
     public Set<Equipe> getEquipe() {
-        return equipe;
+        return Collections.unmodifiableSet(equipes);
     }
 
     public void setEquipe(HashSet<Equipe> equipe) {
-        this.equipe = equipe;
+        this.equipes = equipe;
+    }
+
+    public void addEquipe(Equipe equipe){
+        equipes.add(equipe);
     }
 
     public LocalDate getDateDeCreation() {
@@ -35,10 +36,10 @@ public class Club extends AbstractEntity {
         this.nom = nom;
     }
 
-    public Club(String nom, LocalDate dateDeCreation, HashSet<Equipe> equipe) {
+    public Club(String nom, LocalDate dateDeCreation) {
         setNom(nom);
         setDateDeCreation(dateDeCreation);
-        setEquipe(equipe);
+
     }
 
     @Override

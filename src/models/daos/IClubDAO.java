@@ -1,4 +1,7 @@
 package models.daos;
 
-public interface IClubDAO {
+import models.daos.generic.Dao;
+import models.entities.Club;
+
+public interface IClubDAO extends Dao<Club> {
 }

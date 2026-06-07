@@ -5,6 +5,7 @@ import views.exceptions.ViewException;
 import views.utils.AffichageConsole;
 import views.utils.LectureConsole;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -32,13 +33,16 @@ public class ViewConsoleImpl implements IView{
         AffichageConsole.afficherMenuSimpleAvecOptionSortie(choix, "Retour");
     }
 
+
+
+
     @Override
     public int saisirChoixMenuAvecSortie(int tailleMenu) {
         return LectureConsole.lectureChoixInt(0, tailleMenu);
     }
 
     @Override
-    public <T extends AbstractEntity> void afficherListe(List<T> maListe, Function<T, String> affichable) throws ViewException {
+    public <T> void afficherListe(List<T> maListe, Function<T, String> affichable) throws ViewException {
 
         if (maListe.isEmpty()) {
             throw new ViewException("La liste est vide");
@@ -103,5 +107,16 @@ public class ViewConsoleImpl implements IView{
     @Override
     public String entrerNom() {
         return LectureConsole.lectureChaineCaracteres("Saisir un nom : ");
+    }
+
+    @Override
+    public String saisirNom(String message) {
+        return LectureConsole.lectureChaineCaracteres(message);
+    }
+
+    @Override
+    public LocalDate saisirDateDeCreation(String message) {
+        afficherMessage(message);
+        return LectureConsole.lectureLocalDate("JJ-MM-AAAA");
     }
 }
